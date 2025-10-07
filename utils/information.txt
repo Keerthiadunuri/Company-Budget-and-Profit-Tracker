@@ -1,0 +1,21 @@
+Enter customer ID: 1
+Enter type (revenue/expense): revenue
+Enter amount: 100000
+Enter category: product_sales
+Enter date (YYYY-MM-DD): 2025-09-01
+Enter description (optional): September sales
+
+Enter customer ID: 1
+Enter type (revenue/expense): expense
+Enter amount: 40000
+Enter category: marketing
+Enter date (YYYY-MM-DD): 2025-09-10
+Enter description (optional): Marketing campaign
+
+Enter customer ID: 1
+Enter category: project
+Enter planned amount: 200000
+Enter start date (YYYY-MM-DD): 2025-09-01
+Enter end date (YYYY-MM-DD): 2025-09-30
+
+Profit = 100000 (Revenue) - 40000 (Expense) = 60000

@@ -31,13 +31,8 @@ menu = st.sidebar.selectbox(
 
 # -------------------- CUSTOMERS --------------------
 from src.models.customer import Customer
-from src.dao.customer_dao import CustomerDAO
 from src.models.transaction import Transaction
 
-# Initialize DAO
-customerDAO = CustomerDAO()
-
-# ------------------ CUSTOMERS ------------------ #
 if menu == "Customers":
     st.header("Customer Module")
     
@@ -47,7 +42,6 @@ if menu == "Customers":
         phone = st.text_input("Phone")
         city = st.text_input("City")
         if st.button("Submit Customer"):
-            # Wrap inputs into Customer object
             customer_obj = Customer(name=name, email=email, phone=phone, city=city)
             result = customerDAO.create_customer(customer_obj)
             st.success(f"Customer added successfully: {result}")
@@ -55,18 +49,14 @@ if menu == "Customers":
     st.subheader("All Customers")
     customers = customerDAO.get_all_customers()
     if customers:
-        # Display as table
         st.table([vars(c) for c in customers])
     else:
         st.info("No customers yet.")
 
-
-
-# ------------------ TRANSACTIONS ------------------ #
+# -------------------- TRANSACTIONS --------------------
 elif menu == "Transactions":
     st.header("Transaction Module")
 
-    # --- Add Transaction ---
     with st.expander("Add Transaction"):
         cust_id = st.number_input("Customer ID", min_value=1, step=1)
         txn_type = st.selectbox("Transaction Type", ["revenue", "expense"])
@@ -87,19 +77,17 @@ elif menu == "Transactions":
             result = transactionDAO.create_transaction(transaction_obj)
             st.success(f"Transaction added successfully: {result}")
 
-    # --- Display All Transactions ---
     st.subheader("All Transactions")
     transactions = transactionDAO.get_all_transactions()
-
     if transactions:
         st.table([vars(t) for t in transactions])
     else:
         st.info("No transactions found.")
+
 # -------------------- BUDGETS --------------------
 elif menu == "Budgets":
     st.header("Budget Module")
 
-    # Add Budget
     with st.form("add_budget"):
         cust_id = st.number_input("Customer ID", min_value=1)
         category = st.text_input("Category")
@@ -109,19 +97,17 @@ elif menu == "Budgets":
         submit = st.form_submit_button("Add Budget")
         if submit:
             from src.models.budget import Budget
-            # Wrap inputs in Budget object
             budget_obj = Budget(
                 cust_id=cust_id,
                 category=category,
                 planned_amount=planned_amount,
-                actual_amount=0.0,  # default initial value
+                actual_amount=0.0,
                 start_date=str(start_date),
                 end_date=str(end_date)
             )
             result = budgetDAO.create_budget(budget_obj)
             st.success(f"Budget added successfully: {result}")
 
-    # List Budgets
     st.subheader("All Budgets")
     budgets = budgetDAO.get_all_budgets()
     if budgets:
@@ -144,26 +130,23 @@ elif menu == "Profits":
             st.error(f"Error calculating profit: {e}")
 
     st.subheader("All Profits")
-    # Replace list_profits() with get_all_profits()
     profits = profitDAO.get_all_profits()
     if profits:
         st.table([vars(p) for p in profits])
     else:
         st.info("No profits found.")
 
-
 # -------------------- SIMULATIONS --------------------
 elif menu == "Simulations":
     st.header("Simulation Module")
 
-    # Add Simulation
     with st.form("add_simulation"):
         cust_id = st.number_input("Customer ID", min_value=1)
         scenario = st.text_input("Scenario Description")
-        projected_amount = st.number_input("Projected Amount (Revenue + / Expense -)")
+        projected_amount = st.number_input("Projected Amount")
         submit = st.form_submit_button("Run Simulation")
         if submit:
-            from src.models.simulation import Simulation  # Make sure Simulation model is imported
+            from src.models.simulation import Simulation
             simulation_obj = Simulation(
                 cust_id=cust_id,
                 scenario=scenario,
@@ -172,7 +155,6 @@ elif menu == "Simulations":
             result = simulationDAO.create_simulation(simulation_obj)
             st.success(f"Simulation added: {result}")
 
-    # List Simulations
     st.subheader("All Simulations")
     simulations = simulationDAO.get_all_simulations()
     if simulations:

@@ -25,7 +25,7 @@ def list_managers():
 def delete_manager():
     manager_id = int(input("Enter manager ID to delete: "))
     result = dao.delete_manager(manager_id)
-    print("✅ Manager deleted:", result)
+    print(" Manager deleted:", result)
 
 def main():
     while True:

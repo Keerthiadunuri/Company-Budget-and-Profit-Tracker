@@ -11,7 +11,7 @@ class CustomerDAO:
             "email": customer.email,
             "phone": customer.phone,
             "city": customer.city
-        }
+        }  
         response = self.supabase.table("customers").insert(data).execute()
         return response.data
 
